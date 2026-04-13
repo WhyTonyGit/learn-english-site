@@ -114,6 +114,67 @@
         </div>
     </section>
 
+    <section id="courses" class="courses-section">
+        <div class="container">
+            <h2 class="section-title">Курсы</h2>
+
+            <div class="card p-3 mb-4">
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-6">
+                        <label for="course-search-input" class="form-label fw-semibold">
+                            Поиск по названию
+                        </label>
+                        <input type="text" id="course-search-input" class="form-control"
+                               placeholder="Введите название курса...">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="course-level-select" class="form-label fw-semibold">
+                            Уровень
+                        </label>
+                        <select id="course-level-select" class="form-select">
+                            <option value="">Все уровни</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button id="course-search-btn" type="button" class="btn btn-primary w-100">
+                            <i class="bi bi-search me-1"></i>Найти
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Название курса</th>
+                            <th>Уровень</th>
+                            <th>Преподаватель</th>
+                            <th>Часов/нед.</th>
+                            <th>Цена/час (руб.)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="courses-table-body">
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                Загрузка курсов...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Навигация по курсам" class="pagination-wrapper">
+                <ul class="pagination justify-content-center" id="courses-pagination"></ul>
+            </nav>
+        </div>
+    </section>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/main.js"></script>
