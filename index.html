@@ -175,6 +175,73 @@
         </div>
     </section>
 
+    <section id="tutors" class="tutors-section">
+        <div class="container">
+            <h2 class="section-title">Репетиторы</h2>
+
+            <div class="card p-3 mb-4">
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-5">
+                        <label for="tutor-language-select" class="form-label fw-semibold">
+                            Язык обучения
+                        </label>
+                        <select id="tutor-language-select" class="form-select">
+                            <option value="">Все языки</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="tutor-level-select" class="form-label fw-semibold">
+                            Уровень языка
+                        </label>
+                        <select id="tutor-level-select" class="form-select">
+                            <option value="">Все уровни</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button id="tutor-search-btn" type="button" class="btn btn-primary w-100">
+                            <i class="bi bi-search me-1"></i>Найти
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Имя</th>
+                            <th>Уровень</th>
+                            <th>Языки</th>
+                            <th>Опыт (лет)</th>
+                            <th>Ставка (руб./час)</th>
+                            <th>Фото</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tutors-table-body">
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                Загрузка репетиторов...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-3">
+                <button id="request-tutoring-btn" type="button"
+                        class="btn btn-outline-primary btn-lg d-none"
+                        data-bs-toggle="modal" data-bs-target="#tutoringModal">
+                    <i class="bi bi-person-plus me-2"></i>Запросить занятие
+                </button>
+            </div>
+        </div>
+    </section>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/main.js"></script>
