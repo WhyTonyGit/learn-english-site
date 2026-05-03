@@ -513,6 +513,142 @@ function renderAutoBadges(earlyReg, groupEnroll, intensive, containerId = 'auto-
         : '<span class="text-muted small">Нет применимых условий</span>';
 }
 
+function calculateTotalCostValue() {
+    if (!currentCourseData) return null;
+
+    const dateVal = document.getElementById('enrollment-date').value;
+    const timeVal = document.getElementById('enrollment-time').value;
+    const students = parseInt(document.getElementById('enrollment-students').value, 10) || 0;
+
+    if (!dateVal || !timeVal || students <= 0) return null;
+
+    const supplementary = document.getElementById('opt-supplementary').checked;
+    const personalized  = document.getElementById('opt-personalized').checked;
+    const excursions    = document.getElementById('opt-excursions').checked;
+    const assessment    = document.getElementById('opt-assessment').checked;
+    const interactive   = document.getElementById('opt-interactive').checked;
+
+    const totalLength = currentCourseData.total_length || 0;
+    const weekLength  = currentCourseData.week_length  || 0;
+    const feePerHour  = currentCourseData.course_fee_per_hour || 0;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const startDate = new Date(dateVal);
+    const oneMonthLater = new Date(today);
+    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+    const earlyRegistration = startDate >= oneMonthLater;
+    const groupEnrollment   = students >= 5;
+    const intensiveCourse   = weekLength >= 5;
+
+    const durationInHours = totalLength * weekLength;
+
+    const dayOfWeek = startDate.getDay();
+    const isWeekendOrHoliday = (dayOfWeek === 0 || dayOfWeek === 6) ? 1.5 : 1;
+
+    const hour = parseInt(timeVal.split(':')[0], 10);
+    const morningSurcharge = (hour >= 9 && hour < 12) ? 400 : 0;
+    const eveningSurcharge = (hour >= 18 && hour < 20) ? 1000 : 0;
+
+    const baseCost = (feePerHour * durationInHours * isWeekendOrHoliday)
+        + morningSurcharge + eveningSurcharge;
+
+    let totalCost = baseCost * students;
+
+    if (intensiveCourse)     totalCost *= 1.20;
+    if (excursions)          totalCost *= 1.25;
+    if (interactive)         totalCost *= 1.50;
+    if (supplementary)       totalCost += 2000 * students;
+    if (personalized)        totalCost += 1500 * totalLength;
+    if (assessment)          totalCost += 300;
+    if (earlyRegistration)   totalCost *= 0.90;
+    if (groupEnrollment)     totalCost *= 0.85;
+
+    return {
+        price: Math.round(totalCost),
+        earlyRegistration,
+        groupEnrollment,
+        intensiveCourse
+    };
+}
+
+async function handleEnrollmentSubmit() {
+    if (!currentCourseData) return;
+
+    const dateVal    = document.getElementById('enrollment-date').value;
+    const timeVal    = document.getElementById('enrollment-time').value;
+    const students   = parseInt(document.getElementById('enrollment-students').value, 10);
+
+    if (!dateVal) {
+        showNotification('Пожалуйста, выберите дату начала.', 'danger');
+        return;
+    }
+    if (!timeVal) {
+        showNotification('Пожалуйста, выберите время начала.', 'danger');
+        return;
+    }
+    if (!students || students < 1 || students > 20) {
+        showNotification('Количество студентов должно быть от 1 до 20.', 'danger');
+        return;
+    }
+
+    const costData = calculateTotalCostValue();
+    if (!costData) {
+        showNotification('Не удалось рассчитать стоимость. Проверьте заполнение формы.', 'danger');
+        return;
+    }
+
+    const supplementary = document.getElementById('opt-supplementary').checked;
+    const personalized  = document.getElementById('opt-personalized').checked;
+    const excursions    = document.getElementById('opt-excursions').checked;
+    const assessment    = document.getElementById('opt-assessment').checked;
+    const interactive   = document.getElementById('opt-interactive').checked;
+
+    const weekLength  = currentCourseData.week_length  || 0;
+    const totalLength = currentCourseData.total_length || 0;
+
+    const orderData = {
+        course_id:          currentCourseData.id,
+        tutor_id:           0,
+        date_start:         dateVal,
+        time_start:         timeVal,
+        duration:           totalLength * weekLength,
+        persons:            students,
+        price:              costData.price,
+        early_registration: costData.earlyRegistration,
+        group_enrollment:   costData.groupEnrollment,
+        intensive_course:   costData.intensiveCourse,
+        supplementary:      supplementary,
+        personalized:       personalized,
+        excursions:         excursions,
+        assessment:         assessment,
+        interactive:        interactive
+    };
+
+    const submitBtn = document.getElementById('enrollment-submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Отправка...';
+
+    try {
+        await createOrder(orderData);
+
+        const modal = bootstrap.Modal.getInstance(
+            document.getElementById('enrollmentModal')
+        );
+        if (modal) modal.hide();
+        document.getElementById('enrollment-form').reset();
+        currentCourseData = null;
+
+        showNotification('Заявка успешно отправлена! Ожидайте подтверждения.', 'success');
+    } catch (error) {
+        showNotification(`Ошибка при отправке заявки: ${error.message}`, 'danger');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bi bi-send me-1"></i>Отправить';
+    }
+}
+
 function calcTutoringAutoOptions() {
     const dateVal = document.getElementById('tutoring-date').value;
     const students = parseInt(document.getElementById('tutoring-students').value, 10) || 0;
@@ -676,6 +812,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.enrollment-option').forEach(cb => {
         cb.addEventListener('change', updateEnrollmentCost);
+    });
+
+    document.getElementById('enrollment-submit-btn').addEventListener('click', handleEnrollmentSubmit);
+
+    document.getElementById('enrollmentModal').addEventListener('hidden.bs.modal', () => {
+        document.getElementById('enrollment-form').reset();
+        document.getElementById('enrollment-time').disabled = true;
+        document.getElementById('enrollment-duration').value = '';
+        document.getElementById('enrollment-total-cost').value = '';
+        document.getElementById('auto-option-badges').innerHTML =
+            '<span class="text-muted small">Будут рассчитаны после заполнения формы</span>';
+        currentCourseData = null;
     });
 
     document.getElementById('tutoringModal').addEventListener('show.bs.modal', (e) => {
