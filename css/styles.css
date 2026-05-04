@@ -1,7 +1,15 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f0f4f8;
     color: #212529;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .navbar-brand .brand-logo {
@@ -9,62 +17,108 @@ body {
     margin-right: 0.4rem;
 }
 
+.navbar-brand span.fw-bold {
+    font-size: 1.2rem;
+    letter-spacing: 0.03em;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    transition: color 0.15s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #cfe2ff !important;
+}
+
 #notification-area {
     position: fixed;
     top: 70px;
     right: 20px;
     z-index: 1055;
-    width: 360px;
+    width: 380px;
+    max-width: calc(100vw - 40px);
 }
 
 .about-section {
-    background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+    background: linear-gradient(135deg, #1565c0 0%, #0d47a1 60%, #0a3880 100%);
     color: #fff;
-    padding: 80px 0;
+    padding: 90px 0 80px;
 }
 
 .about-section h1 {
-    font-size: 2.8rem;
+    font-size: 2.6rem;
     font-weight: 700;
+    line-height: 1.2;
+}
+
+.about-section .lead {
+    font-size: 1.15rem;
+    opacity: 0.92;
+}
+
+.about-section p {
+    opacity: 0.85;
+}
+
+.about-hero-icon {
+    font-size: 10rem;
+    opacity: 0.2;
+    display: block;
 }
 
 .advantages-section {
-    padding: 60px 0;
+    padding: 70px 0;
     background-color: #fff;
 }
 
 .advantage-card {
     border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     height: 100%;
 }
 
 .advantage-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
 }
 
 .advantage-icon {
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     color: #1a73e8;
-}
-
-.courses-section {
-    padding: 60px 0;
 }
 
 .section-title {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
     color: #0d47a1;
+    margin-bottom: 1.5rem;
+}
+
+.courses-section {
+    padding: 70px 0;
+    background-color: #f0f4f8;
+}
+
+.courses-section .card {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .tutors-section {
-    padding: 60px 0;
+    padding: 70px 0;
     background-color: #fff;
+}
+
+.tutors-section .card {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .tutor-photo {
@@ -72,17 +126,111 @@ body {
     height: 48px;
     object-fit: cover;
     border-radius: 50%;
+    border: 2px solid #dee2e6;
+}
+
+/* Подсветка выбранного репетитора */
+.tutor-selected {
+    background-color: #cfe2ff !important;
+}
+
+.tutor-selected td {
+    font-weight: 500;
+}
+
+.table {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.table thead th {
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9ff;
+}
+
+.pagination-wrapper {
+    margin-top: 1.25rem;
+}
+
+.pagination .page-link {
+    color: #0d47a1;
+    border-color: #dee2e6;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0d47a1;
+    border-color: #0d47a1;
+    color: #fff;
+}
+
+.pagination .page-link:hover {
+    background-color: #e8edf8;
+    color: #0d47a1;
+}
+
+.auto-option-badges .badge {
+    font-size: 0.82rem;
+    padding: 0.45em 0.8em;
+    border-radius: 20px;
+}
+
+.modal-header {
+    background-color: #1a73e8;
+    color: #fff;
+}
+
+.modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+}
+
+#enrollment-total-cost,
+#edit-total-cost {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    border-color: #a5d6a7;
+    font-size: 1.15rem;
+}
+
+.orders-section {
+    padding: 60px 0 80px;
+    min-height: calc(100vh - 280px);
+}
+
+.orders-section .section-title {
+    display: flex;
+    align-items: center;
 }
 
 .site-footer {
     background-color: #0d1b2a;
     color: #adb5bd;
-    padding: 40px 0 20px;
+    padding: 50px 0 24px;
 }
 
 .site-footer h5 {
     color: #fff;
     font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.site-footer ul li {
+    margin-bottom: 0.4rem;
 }
 
 .site-footer a {
@@ -95,33 +243,105 @@ body {
     color: #fff;
 }
 
-.footer-social a {
-    font-size: 1.4rem;
-    margin-right: 0.8rem;
+.footer-social-icon {
+    display: inline-flex;
+    margin-right: 0.75rem;
+    transition: transform 0.2s, filter 0.2s;
 }
 
-.modal-header {
+.footer-social-icon svg {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: block;
+}
+
+.footer-social-icon:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.15);
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+}
+
+.btn-primary:hover {
+    background-color: #1558b0;
+    border-color: #1558b0;
+}
+
+#request-tutoring-btn {
+    padding: 0.75rem 2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+#request-tutoring-btn:hover {
     background-color: #1a73e8;
     color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(26, 115, 232, 0.35);
 }
 
-.modal-header .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%);
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
 }
 
-.orders-section {
-    padding: 60px 0;
+@media (max-width: 767.98px) {
+    .about-section {
+        padding: 60px 0 50px;
+        text-align: center;
+    }
+
+    .about-section h1 {
+        font-size: 1.9rem;
+    }
+
+    .about-section .btn {
+        width: 100%;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    #notification-area {
+        width: calc(100vw - 32px);
+        right: 16px;
+        top: 65px;
+    }
+
+    .table thead {
+        font-size: 0.78rem;
+    }
+
+    .orders-section {
+        padding: 40px 0 60px;
+    }
+
+    .d-flex.gap-1.flex-wrap .btn {
+        font-size: 0.78rem;
+        padding: 0.25rem 0.5rem;
+    }
 }
 
-.pagination-wrapper {
-    margin-top: 1rem;
-}
+@media (max-width: 575.98px) {
+    .about-section h1 {
+        font-size: 1.6rem;
+    }
 
-.auto-option-badges .badge {
-    font-size: 0.85rem;
-    padding: 0.45em 0.75em;
-}
+    .advantage-card {
+        margin-bottom: 0;
+    }
 
-.tutor-selected {
-    background-color: #cfe2ff !important;
+    .modal-dialog {
+        margin: 0.5rem;
+    }
 }
