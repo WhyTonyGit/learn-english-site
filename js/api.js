@@ -1,5 +1,5 @@
-const API_BASE_URL = 'http://exam-api-courses.std-900.ist.mospolytech.ru/api';
-const API_KEY = 'e3474e93-2ce0-4a72-af5c-4a47e5e99c6e';
+const API_BASE_URL = 'https://web-basics-exam-gagashaggy.amvera.io/api';
+const API_KEY = '6bb5606c-b341-4875-855d-cdf42da161e4';
 
 function buildUrl(endpoint, params = {}) {
     const url = new URL(API_BASE_URL + endpoint);
